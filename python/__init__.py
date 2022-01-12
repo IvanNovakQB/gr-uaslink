@@ -22,21 +22,28 @@
 This is the GNU Radio UASLINK module. Place your Python package
 description here (python/__init__.py).
 '''
+from __future__ import unicode_literals
+
+# GNU Radio 3.8 is compatible with both Python 2 and 3,
+# which raise different exceptions if a module is not found.
+try:
+    module_not_found_error = ModuleNotFoundError
+except NameError:
+    module_not_found_error = ImportError
 
 # import swig generated symbols into the uaslink namespace
 try:
-	# this might fail if the module is python-only
-	from uaslink_swig import *
-except ImportError:
-	pass
+    # this might fail if the module is python-only
+    from .uaslink_swig import *
+except module_not_found_error:
+    pass
 
 # import any pure python here
-from pymavlink_source_p import pymavlink_source_p
-from pymavlink_sink_p import pymavlink_sink_p
-from pymavlink_source_sink_pp import pymavlink_source_sink_pp
-from mavlink_control import mavlink_control
-
-from pdu_control_to_pdu_vector import pdu_control_to_pdu_vector
-from pdu_vector_to_pdu_control import pdu_vector_to_pdu_control
-from burst_verification import burst_verification
+from .mavlink_control import mavlink_control
+from .pdu_vector_to_pdu_control import pdu_vector_to_pdu_control
+from .pdu_control_to_pdu_vector import pdu_control_to_pdu_vector
+from .burst_verification import burst_verification
+from .pymavlink_sink_p import pymavlink_sink_p
+from .pymavlink_source_p import pymavlink_source_p
+from .pymavlink_source_sink_pp import pymavlink_source_sink_pp
 #
